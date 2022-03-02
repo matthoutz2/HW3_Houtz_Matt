@@ -1,0 +1,36 @@
+---
+title: "566 HW3 Maps"
+author: "Matt Houtz"
+output: html_document
+---
+
+
+```{r}
+library("tidyverse")
+library("leaflet")
+```
+
+```{r}
+#Read in player data
+players <- read.csv("C:/Users/matth/Documents/Grad School/Spring 2022/STAA 566/Data/pl_2020.csv")
+country.counts <- table(players$Country)
+country.df <- as.data.frame(country.counts)
+colnames(country.df) <- c('Country', 'Count')
+
+#Read in Lat/Long data
+lat.lon <- read.csv("C:/Users/matth/Documents/Grad School/Spring 2022/STAA 566/Data/Country Coordinates.csv")
+
+#Merge data sets to put latitude and longitude with counts
+countries <- merge(country.df, lat.lon, by="Country")
+```
+
+```{r}
+countries %>% leaflet() %>% 
+  addProviderTiles(providers$OpenStreetMap.Mapnik, group = "Street Map") %>%
+  addProviderTiles(providers$Stamen.TonerLite, group = "Toner Lite") %>%
+  addLayersControl(baseGroups = c("Street Map", "Toner Lite")) %>%
+  addMarkers(label = countries$Country)
+```
+
+
+
