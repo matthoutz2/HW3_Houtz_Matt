@@ -36,6 +36,14 @@ labs <- lapply(seq(nrow(countries)),
 })
 
 class(labs)
+
+icons <- awesomeIcons(
+  icon = 'ios-close',
+  iconColor = 'black',
+  library = 'fa',   
+  text=countries$Count, 
+  markerColor = 'purple'
+)
 ```
 
 ```{r}
@@ -43,13 +51,34 @@ countries %>% leaflet() %>%
   addProviderTiles(providers$OpenStreetMap.Mapnik, group = "Street Map") %>%
   addProviderTiles(providers$OpenTopoMap, group = "Topograph") %>%
   addLayersControl(baseGroups = c("Street Map", "Topograph")) %>%
-  addAwesomeMarkers(label = ~lapply(labs, htmltools::HTML)) %>%
+  addAwesomeMarkers(label = ~lapply(labs, htmltools::HTML), icon=icons) %>%
   setView(lat = 23.1627859, lng = -42.545339, zoom = 2) %>%
   addMiniMap(
     toggleDisplay = TRUE,
     tiles = providers$Stamen.TonerLite
     )
 ```
+
+
+# About the Data
+
+## Source
+
+Data can be found here https://fbref.com/en/comps/9/10728/keepersadv/2020-2021-Premier-League-Stats and latitude/longitude data was found here https://developers.google.com/public-data/docs/canonical/countries_csv and then converted into a csv and merged with the premiere league data. Modifications were needed for the dataset because the original data had some player countries listed that were not countries (Scotland, Wales, Northern Ireland), and then I compressed the player data into just country names and the count of the players that were from those countries.
+
+## Spatial Units being displayed
+
+I'm not sure exactly what this entails, but it's a world map with markers at each country that can be hovered over to view the country name and the number of players from the English Premiere League
+
+## What I'm trying to communicate
+
+I think it's interesting to see just how many countries are represented by the soccer players in the Premiere League, and it's cool to get a visualization of that number of countries.
+
+## Decisions I made and why I made them
+
+I made the markers purple because that's the main color of the Premiere League logo, and I chose to display the number of players on the markers as kind of a preview, so that it would catch the eye because of a high or low number, and then people can hover over the maker to get more information about the country and what the numbers mean.
+
+I set the default zoom to be what it is because I figured that would be the highest interest area. It cuts off four markers, but I chose to zoom in a bit because the original zoom was way too far out and didn't look good.
 
 
 
