@@ -46,7 +46,9 @@ icons <- awesomeIcons(
 )
 ```
 
-```{r}
+# Number of Players in the Premier League by Country
+
+```{r, echo=FALSE, message=FALSE}
 countries %>% leaflet() %>% 
   addProviderTiles(providers$OpenStreetMap.Mapnik, group = "Street Map") %>%
   addProviderTiles(providers$OpenTopoMap, group = "Topograph") %>%
@@ -78,7 +80,9 @@ I think it's interesting to see just how many countries are represented by the s
 
 I made the markers purple because that's the main color of the Premiere League logo, and I chose to display the number of players on the markers as kind of a preview, so that it would catch the eye because of a high or low number, and then people can hover over the maker to get more information about the country and what the numbers mean.
 
-I set the default zoom to be what it is because I figured that would be the highest interest area. It cuts off four markers, but I chose to zoom in a bit because the original zoom was way too far out and didn't look good.
+I set the default zoom to be what it is because I figured that would be the highest interest area. It cuts off four markers, but I chose to zoom in a bit because the original zoom was way too far out and didn't look good, and I added a topographical map really just to show that I knew how to add different layers.
+
+I also chose not to show the code for the call to make the map so that I could add a title right above the map.
 
 
 
