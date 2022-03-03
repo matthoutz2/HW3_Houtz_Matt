@@ -27,14 +27,28 @@ lat.lon <- read.csv("C:/Users/matth/Documents/Grad School/Spring 2022/STAA 566/D
 
 #Merge data sets to put latitude and longitude with counts
 countries <- merge(country.df, lat.lon, by="Country")
+
+#Create Hover Data
+labs <- lapply(seq(nrow(countries)), 
+               function(i) {
+  paste0( "", as.character(countries[i, "Country"]), '<br>',
+         "Number of Players in PL: ", as.character(countries[i, "Count"]),'' ) 
+})
+
+class(labs)
 ```
 
 ```{r}
 countries %>% leaflet() %>% 
   addProviderTiles(providers$OpenStreetMap.Mapnik, group = "Street Map") %>%
-  addProviderTiles(providers$Stamen.TonerLite, group = "Toner Lite") %>%
-  addLayersControl(baseGroups = c("Street Map", "Toner Lite")) %>%
-  addMarkers(label = countries$Country)
+  addProviderTiles(providers$OpenTopoMap, group = "Topograph") %>%
+  addLayersControl(baseGroups = c("Street Map", "Topograph")) %>%
+  addAwesomeMarkers(label = ~lapply(labs, htmltools::HTML)) %>%
+  setView(lat = 23.1627859, lng = -42.545339, zoom = 2) %>%
+  addMiniMap(
+    toggleDisplay = TRUE,
+    tiles = providers$Stamen.TonerLite
+    )
 ```
 
 
